@@ -1,6 +1,6 @@
-package com.senac.agendamentoconsulta.models.entities;
+package com.senac.agendamentoconsulta.domain.entities;
 
-import com.senac.agendamentoconsulta.api.dtos.ConsultaRequestDTO;
+import com.senac.agendamentoconsulta.application.dtos.ConsultaRequestDTO;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;

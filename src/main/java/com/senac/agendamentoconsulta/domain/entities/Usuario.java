@@ -1,6 +1,6 @@
-package com.senac.agendamentoconsulta.models.entities;
+package com.senac.agendamentoconsulta.domain.entities;
 
-import com.senac.agendamentoconsulta.api.dtos.UsuarioRequestDTO;
+import com.senac.agendamentoconsulta.application.dtos.UsuarioRequestDTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

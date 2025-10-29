@@ -1,6 +1,6 @@
-package com.senac.agendamentoconsulta.models.repositories;
+package com.senac.agendamentoconsulta.domain.repositoryes;
 
-import com.senac.agendamentoconsulta.models.entities.Consulta;
+import com.senac.agendamentoconsulta.domain.entities.Consulta;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,6 +1,6 @@
-package com.senac.agendamentoconsulta.api.dtos;
+package com.senac.agendamentoconsulta.application.dtos;
 
-import com.senac.agendamentoconsulta.models.entities.Usuario;
+import com.senac.agendamentoconsulta.domain.entities.Usuario;
 
 public record UsuarioResponseDTO(Long id,
                                  String nome,

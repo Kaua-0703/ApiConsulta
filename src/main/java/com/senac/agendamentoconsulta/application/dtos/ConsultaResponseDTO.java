@@ -1,7 +1,7 @@
-package com.senac.agendamentoconsulta.api.dtos;
+package com.senac.agendamentoconsulta.application.dtos;
 
-import com.senac.agendamentoconsulta.models.entities.Consulta;
-import com.senac.agendamentoconsulta.models.entities.Status;
+import com.senac.agendamentoconsulta.domain.entities.Consulta;
+import com.senac.agendamentoconsulta.domain.entities.Status;
 
 import java.time.LocalDateTime;
 
