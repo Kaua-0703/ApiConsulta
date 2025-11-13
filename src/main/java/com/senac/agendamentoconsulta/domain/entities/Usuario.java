@@ -1,10 +1,10 @@
 package com.senac.agendamentoconsulta.domain.entities;
 
 import com.senac.agendamentoconsulta.application.dtos.UsuarioRequestDTO;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Usuario {
@@ -15,6 +15,15 @@ public class Usuario {
     private String nome;
     private String email;
     private String senha;
+
+    @ManyToMany
+    @JoinTable(
+            name = "consultaMedica_usuario",
+            joinColumns = @JoinColumn(name = "usuario_id"),
+            inverseJoinColumns = @JoinColumn(name = "consultaMedica_id")
+    )
+    private Set<ConsultaMedica> consultas = new HashSet<>();
+
 
     public Usuario() {
     }

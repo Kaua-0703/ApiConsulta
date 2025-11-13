@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-public class Consulta {
+public class ConsultaMedica {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,10 +17,10 @@ public class Consulta {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    public Consulta() {
+    public ConsultaMedica() {
     }
 
-    public Consulta(Long id, String nomePaciente, String nomeMedico, LocalDateTime dataHora, Status status) {
+    public ConsultaMedica(Long id, String nomePaciente, String nomeMedico, LocalDateTime dataHora, Status status) {
         this.id = id;
         this.nomePaciente = nomePaciente;
         this.nomeMedico = nomeMedico;
@@ -28,7 +28,7 @@ public class Consulta {
         this.status = status;
     }
 
-    public Consulta(ConsultaRequestDTO consultaRequestDTO){
+    public ConsultaMedica(ConsultaRequestDTO consultaRequestDTO){
         this.nomePaciente = consultaRequestDTO.nomePaciente();
         this.nomeMedico = consultaRequestDTO.nomeMedico();
         this.dataHora = consultaRequestDTO.dataHora();
