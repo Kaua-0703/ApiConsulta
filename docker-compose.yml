@@ -3,7 +3,7 @@ services:
     image: postgres:18.0-alpine
     container_name: agendamento_db
     ports:
-      - "5433:5432"
+      - "5432:5432"
     environment:
       POSTGRES_DB: db_agendamento
       POSTGRES_USER: postgres
