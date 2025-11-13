@@ -1,5 +1,5 @@
-#maquina virtual
-FROM maven:3.9.8-eclipse-temurin-21-jammy as builder
+# Build da aplicação
+FROM maven:3.9.8-eclipse-temurin-21-jammy AS builder
 
 WORKDIR /app
 
@@ -7,9 +7,8 @@ COPY . .
 
 RUN mvn clean package -DskipTests
 
-#rodar codigo
-
-FROM eclipse-temurin-21-jammy
+# Runtime da aplicação
+FROM eclipse-temurin:21-jammy
 
 WORKDIR /app
 
