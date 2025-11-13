@@ -1,26 +1,34 @@
-version: '3.8'
-
 services:
   agendamentoconsulta_db:
     image: postgres:18.0-alpine
     container_name: agendamento_db
+    ports:
+      - "5433:5432"
     environment:
       POSTGRES_DB: db_agendamento
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 0301
-    ports:
-      - "5433:5432"
+    volumes:
+      - postgres-data-local:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 5s
-      timeout: 3s
-      retries: 5
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 90s
 
   api-spring:
-    image: apiconsulta-api-spring
     container_name: api-consulta
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://agendamentoconsulta_db:5432/db_agendamento
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 0301
     depends_on:
       agendamentoconsulta_db:
         condition: service_healthy
-    ports:
-      - "8080:8080"
+
+volumes:
+  postgres-data-local:
