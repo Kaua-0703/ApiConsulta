@@ -9,9 +9,27 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 0301
 
+    volumes:
+      - postgres-data-local:/var/lib/postgresql/data
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
-      interval: 10s       # Tenta a cada 10 segundos
-      timeout: 5s
-      retries: 10         # Aumentamos as tentativas para 10
-      start_period: 90s   # <-- A GRANDE MUDANÇA
+        test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+        interval: 10s       # Tenta a cada 10 segundos
+        timeout: 5s
+        retries: 10         # Aumentamos as tentativas para 10
+        start_period: 90s   # <-- A GRANDE MUDANÇA
+
+  api-spring:
+      container_name: api-consulta
+      build: .
+      ports:
+        - "8080:8080"
+      environment:
+        - SPRING_DATASOURCE_URL=jdbc:postgresql://agendamentoconsulta_db:5432/db_agendamento
+        - SPRING_DATASOURCE_USERNAME=postgres
+        - SPRING_DATASOURCE_PASSWORD=0301
+      depends_on:
+        postgres-db:
+          condition: service_healthy
+
+volumes:
+    postgres-data-local:
