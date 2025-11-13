@@ -1,35 +1,42 @@
-  services:
-  agendamentoconsulta_db:
-    image: postgres:16-alpine
-    container_name: agendamento_db
-    ports:
-      - "5433:5432"
-    environment:
-      POSTGRES_DB: db_agendamento
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 0301
+name: CI/CD Docker build and Test
 
-    # Verificação automática do status do container
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d db_agendamento"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-      start_period: 10s
+on:
+  push:
+    branches: [ "main" ]
 
-    volumes:
-      - db_data:/var/lib/postgresql/data
+jobs:
+  build-and-test:
+    runs-on: unbunto-latest
 
-  webapi:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: webapi_app
-    depends_on:
-      agendamentoconsulta_db:
-        condition: service_healthy   # só inicia quando o banco estiver pronto
-    ports:
-      - "8080:8080"
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v3
 
-volumes:
-  db_data:
+      - name: 🔧 Instalar o docker compose
+        run: |
+          sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
+
+      - name: 🐋 Subir ambiente com docker compose
+        run: docker-compose up -d
+
+      - name: ⏱️ Aguardar os contêineres estabilizarem
+        run: |
+          echo "Aguardando 30 segundos para os serviços iniciarem..."
+          sleep 30
+
+      - name: 🩺 Verificar status dos contêineres
+        run: |
+          echo "--- Status dos Contêineres ---"
+          docker-compose ps
+          echo "--- Logs do Banco de Dados ---"
+          docker-compose logs db || echo "Serviço 'db' não encontrado ou sem logs."
+          echo "--- Logs da API ---"
+          docker-compose logs api || echo "Serviço 'api' não encontrado ou sem logs."
+      - name: 📞 Realizar teste de saúde na API
+        run: curl --fail http://localhost:8080/swagger-ui/index.html
+
+
+      - name: 🛑 Parar os contêineres após teste
+        if: always()
+        run: docker-compose down
