@@ -9,6 +9,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 0301
 
+
     volumes:
       - postgres-data-local:/var/lib/postgresql/data
 
