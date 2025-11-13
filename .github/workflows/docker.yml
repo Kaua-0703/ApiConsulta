@@ -36,6 +36,7 @@ jobs:
       - name: 📞 Realizar teste de saúde na API
         run: curl --fail http://localhost:8080/swagger-ui/index.html
 
+
       - name: 🛑 Parar os contêineres após teste
         if: always()
         run: docker-compose down
