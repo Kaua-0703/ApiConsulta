@@ -1,5 +1,5 @@
 services:
-  agendamentoconsulta-db:
+  postgres-db:
     image: postgres:latest
     container_name: meu-postgres-local
     ports:
