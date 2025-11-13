@@ -1,5 +1,6 @@
 services:
   agendamentoconsulta_db:
+    container_name: meu-postgres-local
     image: postgres:18.0-alpine
     ports:
       - "5432:5432"
