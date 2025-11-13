@@ -8,11 +8,8 @@ services:
       POSTGRES_DB: db_agendamento
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 0301
-
-
     volumes:
       - postgres-data-local:/var/lib/postgresql/data
-
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
@@ -26,9 +23,9 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://agendamentoconsulta_db:5432/db_agendamento
-      - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=0301
+      SPRING_DATASOURCE_URL: jdbc:postgresql://agendamentoconsulta_db:5432/db_agendamento
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 0301
     depends_on:
       agendamentoconsulta_db:
         condition: service_healthy
