@@ -10,12 +10,6 @@ services:
       POSTGRES_PASSWORD: 0301
     volumes:
       - postgres-data-local:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 10s
-      timeout: 5s
-      retries: 10
-      start_period: 90s
 
   api-spring:
     container_name: api-consulta
