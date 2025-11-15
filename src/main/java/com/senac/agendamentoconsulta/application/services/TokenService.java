@@ -29,22 +29,23 @@ public class TokenService {
     @Value("${spring.minhapalavrafoda}")
     private String secret;
 
-    private String emissor = "Kauã";
+    private String emissor = "Kaua";
 
     @Value("${spring.sessao}")
     private Long tempo;
 
-    public String gerarToken(LoginRequestDto login){
+    public String gerarToken(LoginRequestDto loginRequestDTO){
         try {
+
             Algorithm algorithm = Algorithm.HMAC256(secret);
-            var usuario = usuarioRepository.findByEmail(login.email())
-                    .orElseThrow(()-> new Exception("Usuário não encontrado!"));
+            var usuario = usuarioRepository.findByEmail(loginRequestDTO.email())
+                    .orElseThrow(()-> new RuntimeException("Usuário não encontrado!"));
 
             var dataExpiracao = this.gerarDataExpiracao();
 
             String token = JWT.create()
                     .withIssuer(emissor)
-                    .withSubject(login.email())
+                    .withSubject(loginRequestDTO.email())
                     .withExpiresAt(dataExpiracao.plusHours(15)
                             .toInstant(ZoneOffset.of("-03:00")))
                     .sign(algorithm);
@@ -54,13 +55,14 @@ public class TokenService {
             return token;
 
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }
 
-    public UsuarioLogadoDto consultarUsuarioPorToken(String token) throws Exception {
+    public Usuario consultarUsuarioPorToken(String token) throws Exception {
         var tokenBanco = tokenRepository.findByToken(token)
-                .orElseThrow(()-> new  Exception("Token não encontrado!"));
+                .orElseThrow(()-> new RuntimeException("Token não encontrado!"));
 
         if(tokenBanco.getDataExpiracao().isBefore(LocalDateTime.now())){
             throw new Exception("Token expirado!");
@@ -69,7 +71,7 @@ public class TokenService {
         tokenBanco.setDataExpiracao(LocalDateTime.now().plusMinutes(tempo));
         tokenRepository.save(tokenBanco);
 
-        return new UsuarioLogadoDto(tokenBanco.getUsuario());
+        return tokenBanco.getUsuario();
     }
 
     public void salvarToken(String token, LocalDateTime dataExpiracaos, Usuario usuario){
@@ -83,7 +85,6 @@ public class TokenService {
         tokenRepository.save(tokenBanco);
     }
 
-
     public DecodedJWT validarToken(String token){
         Algorithm algorithm = Algorithm.HMAC256(secret);
 
@@ -94,11 +95,8 @@ public class TokenService {
         return verifier.verify(token);
     }
 
-
     private LocalDateTime gerarDataExpiracao(){
         var dataAtual = LocalDateTime.now();
         return dataAtual.plusMinutes(tempo);
     }
-
-
 }
