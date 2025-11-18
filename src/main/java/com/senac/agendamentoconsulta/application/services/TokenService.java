@@ -6,7 +6,6 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.senac.agendamentoconsulta.application.dtos.LoginRequestDto;
-import com.senac.agendamentoconsulta.application.dtos.UsuarioLogadoDto;
 import com.senac.agendamentoconsulta.domain.entities.Token;
 import com.senac.agendamentoconsulta.domain.entities.Usuario;
 import com.senac.agendamentoconsulta.domain.repositoryes.TokenRepository;
@@ -20,6 +19,7 @@ import java.time.ZoneOffset;
 
 @Service
 public class TokenService {
+
     @Autowired
     private TokenRepository tokenRepository;
 
