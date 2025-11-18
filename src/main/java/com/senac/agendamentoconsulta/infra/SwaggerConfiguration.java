@@ -24,9 +24,9 @@ public class SwaggerConfiguration {
                                 .bearerFormat("JWT")
                 ))
                 .info(new Info()
-                        .title("API Aula Jovem")
+                        .title("Consultas")
                         .version("1.0")
-                        .description("API responsavel por apresentar codigos e didaticas aos alunos do jovem programador!")
+                        .description("API responsavel por agendar consultas!")
                         .termsOfService("http://mtxsistemas.tech")
                 );
     }
