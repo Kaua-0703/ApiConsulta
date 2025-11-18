@@ -27,7 +27,7 @@ public class SwaggerConfiguration {
                         .title("Consultas")
                         .version("1.0")
                         .description("API responsavel por agendar consultas!")
-                        .termsOfService("http://mtxsistemas.tech")
+                        .termsOfService("https://www.unimedcriciuma.com.br/#")
                 );
     }
 }
